@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Compass, Sparkles, CalendarCheck } from "lucide-react";
 
 const steps = [
@@ -10,17 +13,32 @@ export default function HowItWorksSection() {
   return (
     <section className="bg-slate-50 py-16">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-center text-2xl font-bold text-slate-900">How it works</h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center text-2xl font-bold text-slate-900"
+        >
+          How it works
+        </motion.h2>
         <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
           {steps.map(({ icon: Icon, title, description }, i) => (
-            <div key={title} className="text-center">
+            <motion.div
+              key={title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: i * 0.15 }}
+              className="text-center"
+            >
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 via-rose-500 to-sky-500 text-white shadow-md">
                 <Icon className="h-6 w-6" />
               </div>
               <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-sky-600">Step {i + 1}</p>
               <h3 className="mt-1 font-bold text-slate-900">{title}</h3>
               <p className="mt-2 text-sm text-slate-500">{description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

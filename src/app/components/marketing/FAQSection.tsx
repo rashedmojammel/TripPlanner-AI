@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const faqs = [
@@ -16,19 +17,49 @@ export default function FAQSection() {
   return (
     <section className="bg-slate-50 py-16">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-center text-2xl font-bold text-slate-900">Frequently asked questions</h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center text-2xl font-bold text-slate-900"
+        >
+          Frequently asked questions
+        </motion.h2>
         <div className="mt-8 space-y-3">
           {faqs.map((faq, i) => (
-            <div key={faq.q} className="rounded-xl border border-slate-100 bg-white shadow-sm">
+            <motion.div
+              key={faq.q}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="rounded-xl border border-slate-100 bg-white shadow-sm"
+            >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                aria-expanded={openIndex === i}
                 className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-slate-900"
               >
                 {faq.q}
-                <ChevronDown className={`h-4 w-4 flex-shrink-0 text-slate-400 transition-transform ${openIndex === i ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  className={`h-4 w-4 flex-shrink-0 text-slate-400 transition-transform ${openIndex === i ? "rotate-180" : ""}`}
+                />
               </button>
-              {openIndex === i && <p className="px-5 pb-4 text-sm text-slate-500">{faq.a}</p>}
-            </div>
+              <AnimatePresence initial={false}>
+                {openIndex === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-4 text-sm text-slate-500">{faq.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           ))}
         </div>
       </div>
